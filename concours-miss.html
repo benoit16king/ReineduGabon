@@ -816,7 +816,7 @@ function showTab(tab) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
-  event.target.classList.add('active');
+  document.querySelector(`[onclick="showTab('${tab}')"]`).classList.add('active');
   if (tab === 'resultats') renderResults();
   if (tab === 'admin') renderManageList();
 }
