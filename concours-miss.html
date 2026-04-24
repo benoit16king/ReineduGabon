@@ -589,7 +589,7 @@
 
 <!-- HEADER -->
 <header>
-  <span class="crown">👑</span>
+  <span class="crown" id="secret-crown" onclick="secretAdminClick()" style="cursor:pointer;">👑</span>
   <h1>Concours Miss</h1>
   <p>Vote Officiel — 1 vote par numéro</p>
   <div class="divider"></div>
@@ -606,7 +606,6 @@
 <div class="tabs">
   <button class="tab-btn active" onclick="showTab('vote')">🗳️ Voter</button>
   <button class="tab-btn" onclick="showTab('resultats')">📊 Résultats</button>
-  <button class="tab-btn" onclick="showTab('admin')">⚙️ Admin</button>
 </div>
 
 <!-- ===== SECTION VOTE ===== -->
@@ -1016,9 +1015,24 @@ function updateStats() {
 }
 
 // ====== ADMIN ======
+let crownClickCount = 0;
+let crownClickTimer = null;
+
+function secretAdminClick() {
+  crownClickCount++;
+  clearTimeout(crownClickTimer);
+  crownClickTimer = setTimeout(() => { crownClickCount = 0; }, 800);
+  if (crownClickCount >= 3) {
+    crownClickCount = 0;
+    showTab('admin');
+    showToast('🔐 Accès admin');
+  }
+}
+
 function unlockAdmin() {
   const pwd = document.getElementById('admin-pwd').value;
-  if (pwd === appData.settings.adminPwd) {
+  const correctPwd = (appData && appData.settings && appData.settings.adminPwd) ? appData.settings.adminPwd : 'miss2025';
+  if (pwd === correctPwd) {
     document.getElementById('admin-lock').style.display = 'none';
     document.getElementById('admin-panel').style.display = 'block';
     adminUnlocked = true;
@@ -1166,6 +1180,7 @@ init();
 // Le temps réel est géré par startRealTimeSync() via Firebase onValue
 
 // Exposer les fonctions sur window (nécessaire avec type="module")
+window.secretAdminClick = secretAdminClick;
 window.showTab = showTab;
 window.verifyPhone = verifyPhone;
 window.selectCandidate = selectCandidate;
