@@ -814,9 +814,21 @@ function showTab(tab) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
-  document.querySelector(`[onclick="showTab('${tab}')"]`).classList.add('active');
+  // Ne cherche le bouton que s'il existe (admin n'a pas de bouton visible)
+  const btn = document.querySelector(`[onclick="showTab('${tab}')"]`);
+  if (btn) btn.classList.add('active');
   if (tab === 'resultats') renderResults();
-  if (tab === 'admin') renderManageList();
+  if (tab === 'admin') {
+    // Si déjà déverrouillé, afficher directement le panel
+    if (adminUnlocked) {
+      document.getElementById('admin-lock').style.display = 'none';
+      document.getElementById('admin-panel').style.display = 'block';
+      renderManageList();
+    } else {
+      document.getElementById('admin-lock').style.display = '';
+      document.getElementById('admin-panel').style.display = 'none';
+    }
+  }
 }
 
 // ====== PHONE ======
