@@ -1064,6 +1064,9 @@ function uploadCandidatePhoto(candidateId, input) {
     const idx = appData.candidates.findIndex(c => c.id === candidateId);
     if (idx === -1) return;
     appData.candidates[idx].photo = e.target.result;
+    // Mettre à jour le thumb immédiatement sans attendre Firebase
+    const thumb = document.getElementById('thumb-' + candidateId);
+    if (thumb) thumb.innerHTML = `<img src="${e.target.result}" style="display:block">`;
     await saveData();
     renderManageList();
     renderCandidates();
@@ -1179,7 +1182,8 @@ init();
 // Exposer les fonctions sur window (nécessaire avec type="module")
 window.secretAdminClick = secretAdminClick;
 window.showTab = showTab;
-window.verifyPhone = verifyPhone;
+window.verifyPhone = checkPhone;
+window.checkPhone = checkPhone;
 window.selectCandidate = selectCandidate;
 window.submitVote = submitVote;
 window.closeModal = closeModal;
