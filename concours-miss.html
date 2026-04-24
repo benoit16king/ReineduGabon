@@ -1164,6 +1164,22 @@ function showToast(msg) {
 // ====== START ======
 init();
 // Le temps réel est géré par startRealTimeSync() via Firebase onValue
+
+// Exposer les fonctions sur window (nécessaire avec type="module")
+window.showTab = showTab;
+window.verifyPhone = verifyPhone;
+window.selectCandidate = selectCandidate;
+window.submitVote = submitVote;
+window.closeModal = closeModal;
+window.unlockAdmin = unlockAdmin;
+window.addCandidate = addCandidate;
+window.removeCandidate = removeCandidate;
+window.resetVotes = resetVotes;
+window.resetAll = resetAll;
+window.exportCSV = exportCSV;
+window.triggerPhotoUpload = triggerPhotoUpload;
+window.uploadCandidatePhoto = uploadCandidatePhoto;
+window.previewNewPhoto = previewNewPhoto;
 </script>
 </body>
 </html>
